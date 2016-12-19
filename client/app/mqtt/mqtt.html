@@ -1,0 +1,21 @@
+<div class="container">
+	<h2>This is the mqtt data view.</h2>
+	<table class="table">
+		<thead>
+	        <tr>
+	            <th>Sensor</th>
+	            <th>Port</th>
+	            <th>Value</th>
+	            <th>Date</th>
+	       	</tr>
+	    </thead>
+	    <tbody>
+	    	<tr ng-repeat="data in mqttCtrl.sensorData">
+	    		<td>{{data.sensor}}</td>
+	    		<td>{{data.port}}</td>
+	    		<td>{{data.value}}</td>
+	    		<td>{{data.date}}</td>
+	    	</tr>
+	    </tbody>
+	</table>
+</div>
