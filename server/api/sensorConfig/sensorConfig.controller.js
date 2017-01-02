@@ -12,6 +12,7 @@
 import _ from 'lodash';
 import SensorConfig from './sensorConfig.model';
 
+
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
@@ -100,3 +101,4 @@ export function destroy(req, res) {
     .then(removeEntity(res))
     .catch(handleError(res));
 }
+

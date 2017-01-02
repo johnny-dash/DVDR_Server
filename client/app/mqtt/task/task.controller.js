@@ -3,9 +3,20 @@
 (function(){
 
 class TaskComponent {
-  constructor($mdDialog) {
+  constructor($mdDialog,$http, socket) {
     this.message = '';
     this.$mdDialog = $mdDialog;
+    this.$http = $http;
+    this.socket = socket;
+    this.sensorConfigs = [];
+  }
+
+  $onInit() {
+      this.$http.get('/api/sensorConfigs')
+        .then(response => {
+          this.sensorConfigs = response.data;
+          this.socket.syncUpdates('sensorConfig', this.sensorConfigs);
+        });
   }
 
   addTask(ev){
@@ -18,18 +29,70 @@ class TaskComponent {
       .ariaLabel('Dog name')
       .initialValue('2')
       .targetEvent(ev)
-      .ok('Okay!')
+      .ok('Start!')
       .cancel('Cancel');
 
     this.$mdDialog.show(confirm).then(function(result) {
-      console.log('confirm');
-      _this.message = 'You decided to set frequency as ' + result + 'second.';
+      //this condition is used to check the frequency is not empty
+      if(result != ''){
+        //initial new config
+        var newConfig = {
+            task: 'test1',
+            sensor: 'air_quality',
+            port: 'A0',
+            frequency: result,
+            active: true
+        }
+        _this.$http.post('/api/sensorConfigs', newConfig);
+        _this.message = 'You decided to set frequency as ' + result + 'second.';
+        _this.$http.post('/api/mqttPublishs', newConfig);
+      }
+      
     }, function() {
       console.log('cancel');  
       _this.message = 'You didn\'t set frequency.';
     });
   }
+
+  advanceDialog(ev){
+    this.$mdDialog.show({
+      controller: DialogController,
+      templateUrl: 'dialog1.tmpl.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+    .then(function(answer) {
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });  
+  }
+
+  stopTask(sensorConfig){
+    this.$http.delete('/api/sensorConfigs/' + sensorConfig._id);
+    this.$http.post('/api/mqttPublishs');
+  }
+
+
 }
+  // DialogController($scope, $mdDialog) {
+  //   $scope.hide = function() {
+  //     $mdDialog.hide();
+  //   };
+
+  //   $scope.cancel = function() {
+  //     $mdDialog.cancel();
+  //   };
+
+  //   $scope.answer = function(answer) {
+  //     $mdDialog.hide(answer);
+  //   };
+  // };
+
+
+
 
 
 angular.module('webdemoApp')

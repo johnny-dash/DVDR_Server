@@ -3,8 +3,10 @@
 import mongoose from 'mongoose';
 
 var SensorConfigSchema = new mongoose.Schema({
-  name: String,
-  info: String,
+  task: String,
+  sensor: String,
+  port: String,
+  frequency: Number,
   active: Boolean
 });
 

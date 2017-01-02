@@ -30,7 +30,7 @@ client.on('connect', function() { // When connected
       console.log("Port: " + port);
       console.log("Value: " + value);
       console.log("");
-
+      console.log(message.toString());
       var newData = new Sensor({
           id: device,
           sensor: sensor,
@@ -44,8 +44,9 @@ client.on('connect', function() { // When connected
   });
 
   // publish a message to a topic
-  client.publish('config', '1', function() {
-    console.log("Message is published");
+  client.publish('Helloworld', 'MQTT subscriber on Node Server is running', function() {
     //client.end(); // Close the connection when published
   });
 });
+
+module.exports = client;
