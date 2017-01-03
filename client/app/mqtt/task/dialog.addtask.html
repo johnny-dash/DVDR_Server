@@ -1,0 +1,62 @@
+<md-dialog aria-label="Add Task">
+	<form ng-cloak>
+		<md-toolbar>
+		   <div class="md-toolbar-tools">
+	        <h2>Add Task</h2>
+	        <span flex></span>
+	      </div>
+	    </md-toolbar>
+
+		<md-dialog-content layout-padding>
+		<div class="md-dialog-content">
+			<h3>Please enter the detailed information for the task</h3>
+			<span flex></span>	
+			<md-input-container class="md-block">
+				<label>Task Name</label>
+				<input ng-model="dialogCtrl.taskname">
+			</md-input-container>
+			<md-input-container class="md-block" flex-gt-sm>
+				<label>Sensor</label>
+				<md-select ng-model="sensor" ng-change='dialogCtrl.select_Sensor(sensor)'>
+					<md-option ng-repeat="sensor in dialogCtrl.sensors" value="{{sensor}}">
+					{{sensor}}
+					</md-option>
+				</md-select>
+			</md-input-container>
+			<div layout-gt-sm="row">
+				<md-input-container class="md-block" flex>
+					<label>Raspberry Pi</label>
+					<md-select ng-model="device" ng-change='dialogCtrl.select_Device(device)'>
+						<md-option ng-repeat="device in dialogCtrl.devices" value="{{device}}" >
+						{{device.name}}
+						</md-option>
+					</md-select>
+				</md-input-container>
+				<md-input-container class="md-block" flex-sm>
+					<label>Port</label>
+					<md-select ng-model="port" ng-change='dialogCtrl.select_Port(port)'>
+						<md-option ng-repeat="port in dialogCtrl.ports" value="{{port.name}}">
+						{{port.name}}
+						</md-option>
+					</md-select>
+				</md-input-container>
+			</div>
+			<md-input-container class="md-block">
+				<label>Frequency</label>
+				<input ng-model="dialogCtrl.frequency">
+			</md-input-container>
+		</div>
+    	</md-dialog-content>
+
+
+		<md-dialog-actions layout="row">
+		  <span flex></span>
+		  <md-button ng-click="dialogCtrl.cancel()">
+		    Cancel
+		  </md-button>
+		  <md-button ng-click="dialogCtrl.addNewTask()">
+		    Start Task
+		  </md-button>
+		</md-dialog-actions>
+  </form>
+</md-dialog>

@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./sensor.controller');
+var controller = require('./device.controller');
 
 var router = express.Router();
 
@@ -11,6 +11,5 @@ router.post('/', controller.create);
 router.put('/:id', controller.update);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
-router.delete('/', controller.clean);
 
 module.exports = router;

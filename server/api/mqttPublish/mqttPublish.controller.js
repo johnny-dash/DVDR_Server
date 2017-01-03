@@ -10,7 +10,7 @@ var client = require('./../../MQTT');
 
 export function create(req,res){
 	var newConfig = req.body;
-	var message = newConfig.sensor + ':start:' + newConfig.port + ':' + newConfig.frequency;
+	var message = newConfig.sensor + ':start:' + newConfig.frequency + ':' + newConfig.port;
 	client.publish('task', message, function() {
     	 
   	});
@@ -22,7 +22,7 @@ export function update(req,res){
 
 export function stop(req,res){
 	var newConfig = req.body;
-	var message = newConfig.sensor + ':stop:' + newConfig.port + ':' + newConfig.frequency;
+	var message = newConfig.sensor + ':stop:' + newConfig.frequency + ':' + newConfig.port;
 	client.publish('task', message, function() {
     	 
   	});

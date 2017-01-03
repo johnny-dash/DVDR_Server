@@ -1,0 +1,35 @@
+<md-dialog aria-label="Add Task">
+	<form ng-cloak>
+		<md-toolbar>
+		   <div class="md-toolbar-tools">
+	        <h2>Add Device</h2>
+	        <span flex></span>
+	      </div>
+	    </md-toolbar>
+
+		<md-dialog-content layout-padding>
+		<div class="md-dialog-content">
+			<h3>Please enter the detailed information for the Device</h3>
+			<span flex></span>	
+			<md-input-container class="md-block">
+				<label>Device Name</label>
+				<input ng-model="dialogCtrl.devicename">
+			</md-input-container>
+			<md-input-container class="md-block">
+				<label>Serial Number</label>
+				<input ng-model="dialogCtrl.serialnum">
+			</md-input-container>
+    	</md-dialog-content>
+
+
+		<md-dialog-actions layout="row">
+		  <span flex></span>
+		  <md-button ng-click="dialogCtrl.cancel()">
+		    Cancel
+		  </md-button>
+		  <md-button ng-click="dialogCtrl.addNewDevice()">
+		    Add Device
+		  </md-button>
+		</md-dialog-actions>
+  </form>
+</md-dialog>

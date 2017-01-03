@@ -5,7 +5,7 @@ angular.module('webdemoApp', ['webdemoApp.auth', 'webdemoApp.admin', 'webdemoApp
     'validation.match','ngMaterial'
   ])
   .config(function($urlRouterProvider, $locationProvider) {
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/mqtt');
 
     $locationProvider.html5Mode(true);
   });

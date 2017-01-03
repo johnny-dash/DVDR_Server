@@ -16,6 +16,10 @@ class MqttComponent {
 	      this.socket.syncUpdates('sensor', this.sensorData);
 	    });
 	}
+
+  clean() {
+    this.$http.delete('/api/sensors');
+  }
 }
 
 angular.module('webdemoApp')

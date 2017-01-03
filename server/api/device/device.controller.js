@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/sensors              ->  index
- * POST    /api/sensors              ->  create
- * GET     /api/sensors/:id          ->  show
- * PUT     /api/sensors/:id          ->  update
- * DELETE  /api/sensors/:id          ->  destroy
+ * GET     /api/devices              ->  index
+ * POST    /api/devices              ->  create
+ * GET     /api/devices/:id          ->  show
+ * PUT     /api/devices/:id          ->  update
+ * DELETE  /api/devices/:id          ->  destroy
  */
 
 'use strict';
 
 import _ from 'lodash';
-import Sensor from './sensor.model';
+import Device from './device.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -59,51 +59,44 @@ function handleError(res, statusCode) {
   };
 }
 
-// Gets a list of Sensors
+// Gets a list of Devices
 export function index(req, res) {
-  return Sensor.find().exec()
+  return Device.find().exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Gets a single Sensor from the DB
+// Gets a single Device from the DB
 export function show(req, res) {
-  return Sensor.findById(req.params.id).exec()
+  return Device.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Creates a new Sensor in the DB
+// Creates a new Device in the DB
 export function create(req, res) {
-  return Sensor.create(req.body)
+  return Device.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
 
-// Updates an existing Sensor in the DB
+// Updates an existing Device in the DB
 export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  return Sensor.findById(req.params.id).exec()
+  return Device.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Deletes a Sensor from the DB
+// Deletes a Device from the DB
 export function destroy(req, res) {
-  return Sensor.findById(req.params.id).exec()
+  return Device.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
-}
-
-//Deletes the data collection from the DB
-export function clean(req,res){
-  return Sensor.remove({}, function(err, removed){
-     //balala
-  });
 }

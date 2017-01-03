@@ -1,0 +1,30 @@
+<div class="container">
+	<h2>Add new device</h2>
+	<div layout="row" layout-align="end center">
+		<md-button class="md-raised md-primary"  ng-click='deviceCtrl.btn_add_Device($event)'>Add New Device</md-button>
+	</div>
+	<table class="table">
+	    <thead>
+	        <tr>
+	            <th>Device Name</th>
+	            <th>Serial Number</th>
+	            <th>Port State</th>
+	            <th></th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    	<tr ng-repeat="device in deviceCtrl.devices">
+	    		<td>{{device.name}}</td>
+	    		<td>{{device.serial}}</td>
+	    		<td>
+	    			<ul ng-repeat="port in device.ports">
+	    				{{port.name}} {{port.state}}
+	    			</ul>
+	    		<td>
+		    		<button type="button" class="btn btn-primary" >Rename</button>
+		    		<button type="button" class="btn btn-danger" ng-click='deviceCtrl.delete_device(device)'>Delete</button>
+	    		</td>
+	    	</tr>
+	    </tbody>
+	</table>
+</div>

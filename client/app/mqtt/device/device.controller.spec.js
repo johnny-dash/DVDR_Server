@@ -1,15 +1,15 @@
 'use strict';
 
-describe('Component: TestComponent', function () {
+describe('Component: DeviceComponent', function () {
 
   // load the controller's module
   beforeEach(module('webdemoApp'));
 
-  var TestComponent;
+  var DeviceComponent;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($componentController) {
-    TestComponent = $componentController('test', {});
+    DeviceComponent = $componentController('device', {});
   }));
 
   it('should ...', function () {

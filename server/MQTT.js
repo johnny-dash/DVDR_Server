@@ -20,26 +20,28 @@ client.on('connect', function() { // When connected
   client.subscribe('#', function() {
     // when a message arrives, do something with it
     client.on('message', function(topic, message, packet) {
-      var device = topic.toString().split(":")[0];
-      var sensor = topic.toString().split(":")[1];
-      var port  = topic.toString().split(":")[2];
-      var value = message.toString().split("=")[1];
-      var currentdate = new Date();
-      console.log("Device: " + device);
-      console.log("Sensor: " + sensor);
-      console.log("Port: " + port);
-      console.log("Value: " + value);
       console.log("");
-      console.log(message.toString());
-      var newData = new Sensor({
-          id: device,
-          sensor: sensor,
-          port: port,
-          value: value,
-          date: currentdate
-      });
-
-      newData.save();
+      if((topic != 'Helloworld') && (topic != 'task')){
+        var device = topic.toString().split(":")[0];
+        var sensor = topic.toString().split(":")[1];
+        var port  = topic.toString().split(":")[2];
+        var value = message.toString().split("=")[1];
+        var currentdate = new Date();
+        console.log("Device: " + device);
+        console.log("Sensor: " + sensor);
+        console.log("Port: " + port);
+        console.log("Value: " + value);
+        
+        console.log(message.toString());
+        var newData = new Sensor({
+            id: device,
+            sensor: sensor,
+            port: port,
+            value: value,
+            date: currentdate
+        });
+        newData.save();
+      }
     });
   });
 

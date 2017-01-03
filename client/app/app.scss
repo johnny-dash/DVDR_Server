@@ -18,9 +18,9 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
 /* inject:scss */
 @import 'admin/admin.scss';
 @import 'main/main.scss';
+@import 'mqtt/device/device.scss';
 @import 'mqtt/mqtt.scss';
 @import 'mqtt/task/task.scss';
-@import 'test/test.scss';
 @import '../components/footer/footer.scss';
 @import '../components/modal/modal.scss';
 /* endinject */
