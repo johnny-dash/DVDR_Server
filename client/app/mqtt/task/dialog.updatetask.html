@@ -1,0 +1,36 @@
+<md-dialog aria-label="Update Task">
+	<form ng-cloak>
+		<md-toolbar>
+		   <div class="md-toolbar-tools">
+	        <h2>Update Task</h2>
+	        <span flex></span>
+	      </div>
+	    </md-toolbar>
+
+		<md-dialog-content layout-padding>
+		<div class="md-dialog-content">
+			<h3>Please enter the changed information for the task</h3>
+			<span flex></span>	
+			<md-input-container class="md-block">
+				<label>Task Name</label>
+				<input ng-model="dialogCtrl.task">
+			</md-input-container>
+			<md-input-container class="md-block">
+				<label>Frequency</label>
+				<input ng-model="dialogCtrl.frequency">
+			</md-input-container>
+		</div>
+    	</md-dialog-content>
+
+
+		<md-dialog-actions layout="row">
+		  <span flex></span>
+		  <md-button ng-click="dialogCtrl.cancel()">
+		    Cancel
+		  </md-button>
+		  <md-button ng-click="dialogCtrl.update()">
+		    Update Task
+		  </md-button>
+		</md-dialog-actions>
+  </form>
+</md-dialog>

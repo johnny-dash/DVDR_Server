@@ -21,7 +21,8 @@ client.on('connect', function() { // When connected
     // when a message arrives, do something with it
     client.on('message', function(topic, message, packet) {
       console.log("");
-      if((topic != 'Helloworld') && (topic != 'task')){
+      console.log(topic.toString() + ":" + message.toString());
+      if((topic != 'Helloworld') && (topic != 'task') && (topic != 'Greeting from new Raspberry Pi')){
         var device = topic.toString().split(":")[0];
         var sensor = topic.toString().split(":")[1];
         var port  = topic.toString().split(":")[2];

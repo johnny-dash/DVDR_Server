@@ -51,46 +51,63 @@ class DialogController {
 
 
     addNewDevice(){
-        var newDevice = {
-		  name: this.devicename,
-		  serial: this.serialnum,
-		  ports: [
-		  {
-		  	name: 'A0',
-		  	state: 'free'
-		  },
-		  {
-		  	name: 'A1',
-		  	state: 'free'
-		  },
-		  {
-		  	name: 'A2',
-		  	state: 'free'
-		  },
-		  {
-		  	name: 'D0',
-		  	state: 'free'
-		  },
-		  {
-		  	name: 'D1',
-		  	state: 'free'
-		  },
-		  {
-		  	name: 'D2',
-		  	state: 'free'
-		  },
-		  {
-		  	name: 'D3',
-		  	state: 'free'
-		  },
-		  {
-		  	name: 'D4',
-		  	state: 'free'
-		  }
-		  ]
-        }
-        this.$http.post('/api/devices', newDevice);
-        this.$mdDialog.hide();
+      var newDevice = {
+  		  name: this.devicename,
+  		  serial: this.serialnum,
+  		  ports: [
+    		  {
+    		  	name: 'A0',
+    		  	state: 'free'
+    		  },
+    		  {
+    		  	name: 'A1',
+    		  	state: 'free'
+    		  },
+    		  {
+    		  	name: 'A2',
+    		  	state: 'free'
+    		  },
+    		  {
+    		  	name: 'D0',
+    		  	state: 'free'
+    		  },
+    		  {
+    		  	name: 'D1',
+    		  	state: 'free'
+    		  },
+    		  {
+    		  	name: 'D2',
+    		  	state: 'free'
+    		  },
+    		  {
+    		  	name: 'D3',
+    		  	state: 'free'
+    		  },
+    		  {
+    		  	name: 'D4',
+    		  	state: 'free'
+    		  },
+          {
+            name: 'D5',
+            state: 'free'
+          },
+          {
+            name: 'D6',
+            state: 'free'
+          },
+          {
+            name: 'D7',
+            state: 'free'
+          },
+          {
+            name: 'D8',
+            state: 'free'
+          }
+  		  ]
+      }
+      console.log(newDevice); 
+      this.$http.post('/api/devices', newDevice);
+      this.$mdDialog.hide();
     }
 
 

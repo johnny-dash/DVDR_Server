@@ -17,7 +17,11 @@ export function create(req,res){
 }
 
 export function update(req,res){
-
+	var newConfig = req.body;
+	var message = newConfig.sensor + ':update:' + newConfig.frequency + ':' + newConfig.port;
+	client.publish('task', message, function() {
+    	 
+  	});
 }
 
 export function stop(req,res){

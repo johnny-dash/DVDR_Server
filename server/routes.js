@@ -9,6 +9,7 @@ import path from 'path';
 
 export default function(app) {
   // Insert routes below
+  app.use('/api/detectedDevices', require('./api/detectedDevice'));
   app.use('/api/devices', require('./api/device'));
   app.use('/api/mqttPublishs', require('./api/mqttPublish'));
   app.use('/api/sensorConfigs', require('./api/sensorConfig'));

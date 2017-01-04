@@ -1,7 +1,7 @@
 <div class="container">
-	<h1>Task</h1>
+	<h2>Add New Task</h2>
 	<div layout="row" layout-align="end center">
-		<md-button class="md-raised md-primary"  ng-click='taskCtrl.advanceDialog($event)'>Add New Task</md-button>
+		<md-button class="md-raised md-primary"  ng-click='taskCtrl.setNewTask($event)'>Add New Task</md-button>
 	</div>
 	<b layout="row" layout-align="center center" class="md-padding">
       {{taskCtrl.message}}
@@ -23,7 +23,7 @@
 	    		<td>{{sensorConfig.port}}</td>
 	    		<td>{{sensorConfig.frequency}}</td>
 	    		<td>
-		    		<button type="button" class="btn btn-primary" >Reset</button>
+		    		<button type="button" class="btn btn-primary" ng-click='taskCtrl.updateTask(sensorConfig)'>Reset</button>
 		    		<button type="button" class="btn btn-danger" ng-click='taskCtrl.stopTask(sensorConfig)'>Stop</button>
 	    		</td>
 	    	</tr>

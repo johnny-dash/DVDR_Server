@@ -11,11 +11,11 @@ class NavbarController {
     'state': 'mqtt'
     },
     {
-    'title': 'Add Device',
+    'title': 'Manage Device',
     'state': 'device'
     },
     {
-    'title': 'Add Task',
+    'title': 'Manage Task',
     'state': 'task'
     }
   ];

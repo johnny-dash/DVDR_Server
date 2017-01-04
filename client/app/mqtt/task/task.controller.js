@@ -11,6 +11,7 @@ class TaskComponent {
     this.sensorConfigs = [];
   }
 
+  //create the socket for sensorConfig
   $onInit() {
       this.$http.get('/api/sensorConfigs')
         .then(response => {
@@ -19,11 +20,10 @@ class TaskComponent {
         });
   }
 
-
-
-  advanceDialog(ev){
+  //pop up the seting dialog for new task
+  setNewTask(ev){
     this.$mdDialog.show({
-      controller: DialogController,
+      controller: AddtskDialogController,
       templateUrl: 'app/mqtt/task/dialog.addtask.html',
       parent: angular.element(document.body),
       targetEvent: ev,
@@ -37,15 +37,38 @@ class TaskComponent {
     });  
   }
 
+  //update selected task
+  updateTask(sensorConfig){
+    this.$mdDialog.show({
+      controller: UpdatetskDialogController,
+      templateUrl: 'app/mqtt/task/dialog.updatetask.html',
+      parent: angular.element(document.body),
+      clickOutsideToClose:true,
+      controllerAs: 'dialogCtrl',
+      locals : {
+          sensorConfig: sensorConfig
+      }
+    })
+  }
+
+  //stop selected task
   stopTask(sensorConfig){
     this.$http.delete('/api/sensorConfigs/' + sensorConfig._id);
     this.$http.post('/api/mqttPublishs/stop',sensorConfig);
-    
+    var updatedDevice = JSON.parse(sensorConfig.device);
+    for(var i = 0; i < updatedDevice.ports.length; i++){
+        if(updatedDevice.ports[i].name == sensorConfig.port){
+          updatedDevice.ports[i].state = 'free';
+        }
+    }
+    this.$http.put('/api/devices/' + updatedDevice._id, updatedDevice);      
   }
 
 }
 
-class DialogController {
+
+//this is the dialog controller for add task
+class AddtskDialogController {
     constructor($mdDialog,$http) {
       //initial config
       this.message = '';
@@ -114,6 +137,28 @@ class DialogController {
       this.$mdDialog.cancel();
     };
 
+}
+
+class UpdatetskDialogController{
+    constructor($mdDialog,$http, sensorConfig){
+        this.$mdDialog = $mdDialog;
+        this.$http = $http;
+        this.task = sensorConfig.task;
+        this.frequency = sensorConfig.frequency;
+        this.sensorConfig = sensorConfig;
+    }
+
+    update() {
+        this.sensorConfig.task = this.task;
+        this.sensorConfig.frequency = this.frequency;
+        this.$http.put('/api/sensorConfigs/' + this.sensorConfig._id, this.sensorConfig);
+        this.$http.post('/api/mqttPublishs/update', this.sensorConfig);
+        this.$mdDialog.hide();
+    }
+
+    cancel() {
+      this.$mdDialog.cancel();
+    };
 }
 
 
