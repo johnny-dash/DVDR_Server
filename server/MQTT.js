@@ -1,5 +1,7 @@
 import mqtt from 'mqtt';
 import Sensor from './api/sensor/sensor.model'
+import Device from './api/device/device.model'
+import UnregisteredDevice from './api/unregisteredDevice/unregisteredDevice.model'
 
 var client  = mqtt.connect({ host: '130.56.250.107', port: 1883 })
  
@@ -22,6 +24,8 @@ client.on('connect', function() { // When connected
     client.on('message', function(topic, message, packet) {
       console.log("");
       console.log(topic.toString() + ":" + message.toString());
+
+      //Filter the sensor meta data and store into database
       if((topic != 'Helloworld') && (topic != 'task') && (topic != 'Greeting from new Raspberry Pi')){
         var device = topic.toString().split(":")[0];
         var sensor = topic.toString().split(":")[1];
@@ -43,6 +47,24 @@ client.on('connect', function() { // When connected
         });
         newData.save();
       }
+
+      //Filter the greeting from unregister device and store into db
+      if(topic == 'Greeting from new Raspberry Pi'){
+        Device.findOne({serial: message.toString()}, function(err, device){
+            if(err) return err;
+            if(device == null){
+              UnregisteredDevice.findOne({serial: message.toString()}, function(err, unreg_device){
+                if(unreg_device == null){
+                  var newUnregisteredDevice = new UnregisteredDevice({
+                      serial: message.toString()
+                  });
+                  newUnregisteredDevice.save();
+                }
+              });
+            }
+        });
+      }
+
     });
   });
 

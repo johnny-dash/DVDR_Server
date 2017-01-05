@@ -4,7 +4,7 @@
 
 'use strict';
 
-import DetectedDeviceEvents from './detectedDevice.events';
+import UnregisteredDeviceEvents from './unregisteredDevice.events';
 
 // Model events to emit
 var events = ['save', 'remove'];
@@ -13,9 +13,9 @@ export function register(socket) {
   // Bind model events to socket events
   for (var i = 0, eventsLength = events.length; i < eventsLength; i++) {
     var event = events[i];
-    var listener = createListener('detectedDevice:' + event, socket);
+    var listener = createListener('unregisteredDevice:' + event, socket);
 
-    DetectedDeviceEvents.on(event, listener);
+    UnregisteredDeviceEvents.on(event, listener);
     socket.on('disconnect', removeListener(event, listener));
   }
 }
@@ -29,6 +29,6 @@ function createListener(event, socket) {
 
 function removeListener(event, listener) {
   return function() {
-    DetectedDeviceEvents.removeListener(event, listener);
+    UnregisteredDeviceEvents.removeListener(event, listener);
   };
 }

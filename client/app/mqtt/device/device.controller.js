@@ -46,14 +46,21 @@ class DialogController {
       this.$mdDialog = $mdDialog;
       this.$http = $http;
       this.devicename = '';
-      this.serialnum = '';
+      this.selectedSerial = null;
+      this.unregisteredDevices = [];
+
+      this.$http.get('/api/unregisteredDevices')
+        .then(response => {
+            this.unregisteredDevices = response.data;
+            this.socket.syncUpdates('unregisteredDevice', this.unregisteredDevices);
+        });
     }
 
 
     addNewDevice(){
       var newDevice = {
   		  name: this.devicename,
-  		  serial: this.serialnum,
+  		  serial: this.selectedSerial,
   		  ports: [
     		  {
     		  	name: 'A0',
@@ -105,11 +112,14 @@ class DialogController {
           }
   		  ]
       }
-      console.log(newDevice); 
       this.$http.post('/api/devices', newDevice);
+      this.$http.post('/api/mqttPublishs/register', this.selectedSerial);
       this.$mdDialog.hide();
     }
 
+    select_Serial(unregisteredDevice){  
+      this.selectedSerial = JSON.parse(unregisteredDevice).serial;
+    }
 
 
     cancel() {

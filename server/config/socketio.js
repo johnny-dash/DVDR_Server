@@ -17,6 +17,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/unregisteredDevice/unregisteredDevice.socket').register(socket);
   require('../api/detectedDevice/detectedDevice.socket').register(socket);
   require('../api/device/device.socket').register(socket);
   require('../api/sensorConfig/sensorConfig.socket').register(socket);

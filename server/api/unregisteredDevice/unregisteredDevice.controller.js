@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/detectedDevices              ->  index
- * POST    /api/detectedDevices              ->  create
- * GET     /api/detectedDevices/:id          ->  show
- * PUT     /api/detectedDevices/:id          ->  update
- * DELETE  /api/detectedDevices/:id          ->  destroy
+ * GET     /api/unregisteredDevices              ->  index
+ * POST    /api/unregisteredDevices              ->  create
+ * GET     /api/unregisteredDevices/:id          ->  show
+ * PUT     /api/unregisteredDevices/:id          ->  update
+ * DELETE  /api/unregisteredDevices/:id          ->  destroy
  */
 
 'use strict';
 
 import _ from 'lodash';
-import DetectedDevice from './detectedDevice.model';
+import UnregisteredDevice from './unregisteredDevice.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -59,43 +59,43 @@ function handleError(res, statusCode) {
   };
 }
 
-// Gets a list of DetectedDevices
+// Gets a list of UnregisteredDevices
 export function index(req, res) {
-  return DetectedDevice.find().exec()
+  return UnregisteredDevice.find().exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Gets a single DetectedDevice from the DB
+// Gets a single UnregisteredDevice from the DB
 export function show(req, res) {
-  return DetectedDevice.findById(req.params.id).exec()
+  return UnregisteredDevice.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Creates a new DetectedDevice in the DB
+// Creates a new UnregisteredDevice in the DB
 export function create(req, res) {
-  return DetectedDevice.create(req.body)
+  return UnregisteredDevice.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
 
-// Updates an existing DetectedDevice in the DB
+// Updates an existing UnregisteredDevice in the DB
 export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  return DetectedDevice.findById(req.params.id).exec()
+  return UnregisteredDevice.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Deletes a DetectedDevice from the DB
+// Deletes a UnregisteredDevice from the DB
 export function destroy(req, res) {
-  return DetectedDevice.findById(req.params.id).exec()
+  return UnregisteredDevice.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

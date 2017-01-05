@@ -86,7 +86,8 @@ class AddtskDialogController {
       this.devices = [];
       this.sensors = [
         'air_quality', 
-        'temperature_humidity'
+        'temperature_humidity',
+        'light'
       ];
       this.ports = [];
 

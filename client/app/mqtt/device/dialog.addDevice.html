@@ -15,16 +15,20 @@
 				<label>Device Name</label>
 				<input ng-model="dialogCtrl.devicename">
 			</md-input-container>
-			<md-input-container class="md-block">
+			<md-input-container class="md-block" flex-gt-sm>
 				<label>Serial Number</label>
-				<input ng-model="dialogCtrl.serialnum">
+				<md-select ng-model="unregisteredDevice" ng-change='dialogCtrl.select_Serial(unregisteredDevice)'>
+					<md-option ng-repeat="unregisteredDevice in dialogCtrl.unregisteredDevices" value="{{unregisteredDevice}}">
+					{{unregisteredDevice.serial}}
+					</md-option>
+				</md-select>
 			</md-input-container>
     	</md-dialog-content>
 
 
 		<md-dialog-actions layout="row">
 		  <span flex></span>
-		  <md-button ng-click="dialogCtrl.cancel()">
+		  <md-button ng-click="dialogCtrl.cancel()">l
 		    Cancel
 		  </md-button>
 		  <md-button ng-click="dialogCtrl.addNewDevice()">
