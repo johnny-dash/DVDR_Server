@@ -23,8 +23,14 @@
 	    		<td>{{sensorConfig.port}}</td>
 	    		<td>{{sensorConfig.frequency}}</td>
 	    		<td>
-		    		<button type="button" class="btn btn-primary" ng-click='taskCtrl.updateTask(sensorConfig)'>Reset</button>
-		    		<button type="button" class="btn btn-danger" ng-click='taskCtrl.stopTask(sensorConfig)'>Stop</button>
+	    			<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+			    		<div class="btn-group">
+						  <button type="button" class="btn btn-primary" ng-click='taskCtrl.startTask(sensorConfig)'>Start</button>
+						  <button type="button" class="btn btn-primary" ng-click='taskCtrl.stopTask(sensorConfig)'>Stop</button>
+						</div>
+						<md-button class="md-raised md-primary" ng-click='taskCtrl.updateTask(sensorConfig)'>Reset</md-button>
+			    		<md-button class="md-raised md-warn" ng-click='taskCtrl.deleteTask(sensorConfig)'>Delete</md-button>
+		    		</section>
 	    		</td>
 	    	</tr>
 	    </tbody>

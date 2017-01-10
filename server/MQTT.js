@@ -26,7 +26,7 @@ client.on('connect', function() { // When connected
       console.log(topic.toString() + ":" + message.toString());
 
       //Filter the sensor meta data and store into database
-      if((topic != 'Helloworld') && (topic != 'task') && (topic != 'Greeting from new Raspberry Pi')){
+      if((topic != 'Helloworld') && (topic != 'task') && (topic != 'device')){
         var device = topic.toString().split(":")[0];
         var sensor = topic.toString().split(":")[1];
         var port  = topic.toString().split(":")[2];
@@ -63,7 +63,11 @@ client.on('connect', function() { // When connected
               });
             }
         });
+        client.publish(message.toString() + ":device", "record", function(){
+
+        });
       }
+
 
     });
   });

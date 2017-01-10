@@ -6,7 +6,8 @@ var controller = require('./device.controller');
 var router = express.Router();
 
 router.get('/', controller.index);
-router.get('/:id', controller.show);
+//router.get('/:id', controller.show);
+router.get('/:serial', controller.findByserial);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
 router.patch('/:id', controller.update);

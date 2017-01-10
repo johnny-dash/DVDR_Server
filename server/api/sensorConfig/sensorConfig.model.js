@@ -7,7 +7,9 @@ var SensorConfigSchema = new mongoose.Schema({
   device: String,
   sensor: String,
   port: String,
-  frequency: Number
+  frequency: Number,
+  enrollment: String,
+  status: String
 });
 
 export default mongoose.model('SensorConfig', SensorConfigSchema);

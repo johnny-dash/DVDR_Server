@@ -36,7 +36,10 @@ class DeviceComponent {
   }
 
   delete_device(device){
-      this.$http.delete('/api/devices/' + device._id);
+      this.$http.delete('/api/devices/' + device._id)
+        .then(response => {
+          this.$http.post('/api/mqttPublishs/unregistered', { serial:device.serial });
+        });      
   }
 }
 
@@ -46,7 +49,7 @@ class DialogController {
       this.$mdDialog = $mdDialog;
       this.$http = $http;
       this.devicename = '';
-      this.selectedSerial = null;
+      this.select_Device = null;
       this.unregisteredDevices = [];
 
       this.$http.get('/api/unregisteredDevices')
@@ -60,7 +63,7 @@ class DialogController {
     addNewDevice(){
       var newDevice = {
   		  name: this.devicename,
-  		  serial: this.selectedSerial,
+  		  serial: this.select_Device.serial,
   		  ports: [
     		  {
     		  	name: 'A0',
@@ -113,12 +116,12 @@ class DialogController {
   		  ]
       }
       this.$http.post('/api/devices', newDevice);
-      this.$http.post('/api/mqttPublishs/register', this.selectedSerial);
+      this.$http.delete('/api/unregisteredDevices/'+ this.select_Device._id);
       this.$mdDialog.hide();
     }
 
     select_Serial(unregisteredDevice){  
-      this.selectedSerial = JSON.parse(unregisteredDevice).serial;
+      this.select_Device = JSON.parse(unregisteredDevice);
     }
 
 

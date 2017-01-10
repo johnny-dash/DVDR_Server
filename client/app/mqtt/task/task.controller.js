@@ -39,29 +39,76 @@ class TaskComponent {
 
   //update selected task
   updateTask(sensorConfig){
-    this.$mdDialog.show({
-      controller: UpdatetskDialogController,
-      templateUrl: 'app/mqtt/task/dialog.updatetask.html',
-      parent: angular.element(document.body),
-      clickOutsideToClose:true,
-      controllerAs: 'dialogCtrl',
-      locals : {
-          sensorConfig: sensorConfig
-      }
-    })
+    if(sensorConfig.status == "start"){
+      this.$mdDialog.show({
+        controller: UpdatetskDialogController,
+        templateUrl: 'app/mqtt/task/dialog.updatetask.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose:true,
+        controllerAs: 'dialogCtrl',
+        locals : {
+            sensorConfig: sensorConfig
+        }
+      });
+    }
   }
+
+
 
   //stop selected task
   stopTask(sensorConfig){
+    if(sensorConfig.status == "start"){
+      this.$http.post('/api/mqttPublishs/stop', sensorConfig);
+      this.$http.get('/api/devices/'+ sensorConfig.device)
+        .then(response => {
+            var updatedDevice = response.data;              
+            for(var i = 0; i < updatedDevice.ports.length; i++){
+                if(updatedDevice.ports[i].name == sensorConfig.port){
+                  updatedDevice.ports[i].state = 'free';
+                }
+            }
+            this.$http.put('/api/devices/' + updatedDevice._id, updatedDevice);  
+            sensorConfig.status = "stop";
+            this.$http.put('/api/sensorConfigs/'+ sensorConfig._id, sensorConfig);
+        });
+      }     
+  }
+
+  startTask(sensorConfig){
+    if(sensorConfig.status == "stop"){
+      this.$http.post('/api/mqttPublishs/restart', sensorConfig);
+      this.$http.get('/api/devices/'+ sensorConfig.device)
+        .then(response => {
+            var updatedDevice = response.data;              
+            for(var i = 0; i < updatedDevice.ports.length; i++){
+                if(updatedDevice.ports[i].name == sensorConfig.port){
+                  updatedDevice.ports[i].state = sensorConfig.sensor;
+                }
+            }
+            this.$http.put('/api/devices/' + updatedDevice._id, updatedDevice);  
+            sensorConfig.status = "start";
+            this.$http.put('/api/sensorConfigs/'+ sensorConfig._id, sensorConfig);
+
+        }); 
+      }   
+  }   
+  
+
+  //delete selected task
+  deleteTask(sensorConfig){
     this.$http.delete('/api/sensorConfigs/' + sensorConfig._id);
-    this.$http.post('/api/mqttPublishs/stop',sensorConfig);
-    var updatedDevice = JSON.parse(sensorConfig.device);
-    for(var i = 0; i < updatedDevice.ports.length; i++){
-        if(updatedDevice.ports[i].name == sensorConfig.port){
-          updatedDevice.ports[i].state = 'free';
-        }
-    }
-    this.$http.put('/api/devices/' + updatedDevice._id, updatedDevice);      
+    this.$http.post('/api/mqttPublishs/delete',sensorConfig);
+    this.$http.get('/api/devices/'+ sensorConfig.device)
+      .then(response => {
+          var updatedDevice = response.data;              
+          for(var i = 0; i < updatedDevice.ports.length; i++){
+              if(updatedDevice.ports[i].name == sensorConfig.port){
+                updatedDevice.ports[i].state = 'free';
+              }
+          }
+          this.$http.put('/api/devices/' + updatedDevice._id, updatedDevice);  
+
+      });    
   }
 
 }
@@ -76,11 +123,11 @@ class AddtskDialogController {
       this.$http = $http;
 
       //this is for picked data
-      this.taskname = '';
-      this.frequency = '';
-      this.selected_Sensor = null;
-      this.selected_Device = null;
-      this.selected_Port = null;
+      // this.taskname = '';
+      // this.frequency = '';
+      // this.selected_Sensor = null;
+      // this.selected_Device = null;
+      // this.selected_Port = null;
       
       //this is slots for data
       this.devices = [];
@@ -104,10 +151,12 @@ class AddtskDialogController {
     addNewTask(){
         var newConfig = {
             task: this.taskname,
-            device: this.selected_Device,
+            device: JSON.parse(this.selected_Device).serial,
             sensor: this.selected_Sensor,
             port: this.selected_Port,
-            frequency: this.frequency
+            frequency: this.frequency,
+            enrollment: this.enrollment,
+            status: "start"
         } 
         this.$http.post('/api/sensorConfigs', newConfig); 
         this.$http.post('/api/mqttPublishs', newConfig);
@@ -152,8 +201,11 @@ class UpdatetskDialogController{
     update() {
         this.sensorConfig.task = this.task;
         this.sensorConfig.frequency = this.frequency;
-        this.$http.put('/api/sensorConfigs/' + this.sensorConfig._id, this.sensorConfig);
-        this.$http.post('/api/mqttPublishs/update', this.sensorConfig);
+        this.$http.put('/api/sensorConfigs/' + this.sensorConfig._id, this.sensorConfig)
+          .then(() => {
+            this.$http.post('/api/mqttPublishs/update', this.sensorConfig);
+          });
+        
         this.$mdDialog.hide();
     }
 

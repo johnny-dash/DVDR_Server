@@ -74,6 +74,13 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
+export function findByserial(req,res) {
+  return Device.findOne({serial: req.params.serial}).exec()
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Creates a new Device in the DB
 export function create(req, res) {
   return Device.create(req.body)

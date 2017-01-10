@@ -1,5 +1,5 @@
 <md-dialog aria-label="Add Task">
-	<form ng-cloak>
+	<form name="form" ng-submit="dialogCtrl.addNewTask()" ng-cloak>
 		<md-toolbar>
 		   <div class="md-toolbar-tools">
 	        <h2>Add Task</h2>
@@ -13,7 +13,7 @@
 			<span flex></span>	
 			<md-input-container class="md-block">
 				<label>Task Name</label>
-				<input ng-model="dialogCtrl.taskname">
+				<input ng-model="dialogCtrl.taskname" required>
 			</md-input-container>
 			<md-input-container class="md-block" flex-gt-sm>
 				<label>Sensor</label>
@@ -43,7 +43,11 @@
 			</div>
 			<md-input-container class="md-block">
 				<label>Frequency</label>
-				<input ng-model="dialogCtrl.frequency">
+				<input ng-model="dialogCtrl.frequency" type="number" min="0" required>
+			</md-input-container>
+			<md-input-container class="md-block">
+				<label>Enrollment</label>
+				<input ng-model="dialogCtrl.enrollment" required>
 			</md-input-container>
 		</div>
     	</md-dialog-content>
@@ -54,7 +58,7 @@
 		  <md-button ng-click="dialogCtrl.cancel()">
 		    Cancel
 		  </md-button>
-		  <md-button ng-click="dialogCtrl.addNewTask()">
+		  <md-button type="submit">
 		    Start Task
 		  </md-button>
 		</md-dialog-actions>
