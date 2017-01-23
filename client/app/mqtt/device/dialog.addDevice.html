@@ -17,7 +17,7 @@
 			</md-input-container>
 			<md-input-container class="md-block" flex-gt-sm>
 				<label>Serial Number</label>
-				<md-select ng-model="unregisteredDevice" ng-change='dialogCtrl.select_Serial(unregisteredDevice)'>
+				<md-select ng-model="unregisteredDevice" ng-change='dialogCtrl.select_Serial(unregisteredDevice)' required>
 					<md-option ng-repeat="unregisteredDevice in dialogCtrl.unregisteredDevices" value="{{unregisteredDevice}}">
 					{{unregisteredDevice.serial}}
 					</md-option>

@@ -7,18 +7,18 @@ class MqttComponent {
     this.sensorData = [];
     this.socket = socket;
     this.$http = $http;
+
   }
 
 	$onInit() {
-	  this.$http.get('/api/sensors')
-	    .then(response => {
-	      this.sensorData = response.data;
-	      this.socket.syncUpdates('sensor', this.sensorData);
-	    });
+    let _this = this;
+    this.socket.socket.on('updates', function (message) {
+      _this.sensorData.push(message);
+    });
 	}
 
   clean() {
-    this.$http.delete('/api/sensors');
+    sensorData = [];
   }
 }
 

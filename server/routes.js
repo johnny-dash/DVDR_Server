@@ -13,7 +13,6 @@ export default function(app) {
   app.use('/api/devices', require('./api/device'));
   app.use('/api/mqttPublishs', require('./api/mqttPublish'));
   app.use('/api/sensorConfigs', require('./api/sensorConfig'));
-  app.use('/api/sensors', require('./api/sensor'));
   app.use('/api/things', require('./api/thing'));
   app.use('/api/users', require('./api/user'));
 

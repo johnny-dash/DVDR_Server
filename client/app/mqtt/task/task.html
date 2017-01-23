@@ -18,16 +18,19 @@
 	    </thead>
 	    <tbody>
 	    	<tr ng-repeat="sensorConfig in taskCtrl.sensorConfigs">
-	    		<td>{{sensorConfig.task}}</td>
+	    		<td>{{sensorConfig.taskname}}</td>
 	    		<td>{{sensorConfig.sensor}}</td>
 	    		<td>{{sensorConfig.port}}</td>
 	    		<td>{{sensorConfig.frequency}}</td>
 	    		<td>
 	    			<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-			    		<div class="btn-group">
+	<!-- 		    		<div class="btn-group">
 						  <button type="button" class="btn btn-primary" ng-click='taskCtrl.startTask(sensorConfig)'>Start</button>
 						  <button type="button" class="btn btn-primary" ng-click='taskCtrl.stopTask(sensorConfig)'>Stop</button>
-						</div>
+						</div> -->
+						<md-button class="md-raised md-primary" ng-click='taskCtrl.startTask(sensorConfig)' ng-if='sensorConfig.status === "start"'>Start</md-button>
+						<md-button class="md-raised md-primary" ng-click='taskCtrl.stopTask(sensorConfig)' ng-if='sensorConfig.status === "stop"'>Stop</md-button>
+
 						<md-button class="md-raised md-primary" ng-click='taskCtrl.updateTask(sensorConfig)'>Reset</md-button>
 			    		<md-button class="md-raised md-warn" ng-click='taskCtrl.deleteTask(sensorConfig)'>Delete</md-button>
 		    		</section>

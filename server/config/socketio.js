@@ -4,7 +4,7 @@
 'use strict';
 
 import config from './environment';
-
+var client = require('./../MQTT').client;
 // When the user disconnects.. perform this
 function onDisconnect(socket) {
 }
@@ -17,12 +17,11 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/socket/socket.socket').register(socket);
   require('../api/unregisteredDevice/unregisteredDevice.socket').register(socket);
   require('../api/device/device.socket').register(socket);
   require('../api/sensorConfig/sensorConfig.socket').register(socket);
-  require('../api/sensor/sensor.socket').register(socket);
   require('../api/thing/thing.socket').register(socket);
-
 }
 
 export default function(socketio) {

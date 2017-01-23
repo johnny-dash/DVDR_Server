@@ -8,6 +8,7 @@ import SensorConfigEvents from './sensorConfig.events';
 
 // Model events to emit
 var events = ['save', 'remove'];
+var socketio;
 
 export function register(socket) {
   // Bind model events to socket events
@@ -32,3 +33,4 @@ function removeListener(event, listener) {
     SensorConfigEvents.removeListener(event, listener);
   };
 }
+

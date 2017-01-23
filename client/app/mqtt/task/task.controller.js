@@ -11,13 +11,14 @@ class TaskComponent {
     this.sensorConfigs = [];
   }
 
+
   //create the socket for sensorConfig
   $onInit() {
-      this.$http.get('/api/sensorConfigs')
-        .then(response => {
-          this.sensorConfigs = response.data;
-          this.socket.syncUpdates('sensorConfig', this.sensorConfigs);
-        });
+    this.$http.get('/api/sensorConfigs')
+      .then(response => {
+        this.sensorConfigs = response.data;
+        this.socket.syncUpdates('sensorConfig', this.sensorConfigs);
+      });
   }
 
   //pop up the seting dialog for new task
@@ -121,13 +122,6 @@ class AddtskDialogController {
       this.message = '';
       this.$mdDialog = $mdDialog;
       this.$http = $http;
-
-      //this is for picked data
-      // this.taskname = '';
-      // this.frequency = '';
-      // this.selected_Sensor = null;
-      // this.selected_Device = null;
-      // this.selected_Port = null;
       
       //this is slots for data
       this.devices = [];
@@ -149,9 +143,14 @@ class AddtskDialogController {
 
 
     addNewTask(){
+        var serial = JSON.parse(this.selected_Device).serial;
+        var currentdate = new Date();
+        console.log(this.selected_Port);
+        var _tskid = serial.substring(10,14) + this.selected_Port + currentdate.getFullYear().toString() + currentdate.getMonth().toString() + currentdate.getDate().toString();
         var newConfig = {
-            task: this.taskname,
-            device: JSON.parse(this.selected_Device).serial,
+            taskid: _tskid,
+            taskname: this.taskname,
+            device: serial,
             sensor: this.selected_Sensor,
             port: this.selected_Port,
             frequency: this.frequency,
@@ -193,13 +192,13 @@ class UpdatetskDialogController{
     constructor($mdDialog,$http, sensorConfig){
         this.$mdDialog = $mdDialog;
         this.$http = $http;
-        this.task = sensorConfig.task;
+        this.taskname = sensorConfig.taskname;
         this.frequency = sensorConfig.frequency;
         this.sensorConfig = sensorConfig;
     }
 
     update() {
-        this.sensorConfig.task = this.task;
+        this.sensorConfig.taskname = this.taskname;
         this.sensorConfig.frequency = this.frequency;
         this.$http.put('/api/sensorConfigs/' + this.sensorConfig._id, this.sensorConfig)
           .then(() => {

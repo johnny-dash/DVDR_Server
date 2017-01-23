@@ -1,12 +1,12 @@
 <div class="container">
 	<h2>This is the mqtt data view.</h2>
 	<div layout="row" layout-align="end center">
-		<button type="button" class="btn btn-danger" ng-click='mqttCtrl.clean()'>Clean</button>
+		<md-button type="button" class="md-raised btn-danger" ng-click='mqttCtrl.clean()'>Clean</md-button>
 	</div>
 	<table class="table">
 		<thead>
 	        <tr>
-	            <th>Sensor</th>
+	            <th>Device</th>
 	            <th>Port</th>
 	            <th>Value</th>
 	            <th>Date</th>
@@ -14,7 +14,7 @@
 	    </thead>
 	    <tbody>
 	    	<tr ng-repeat="data in mqttCtrl.sensorData">
-	    		<td>{{data.sensor}}</td>
+	    		<td>{{data.device}}</td>
 	    		<td>{{data.port}}</td>
 	    		<td>{{data.value}}</td>
 	    		<td>{{data.date}}</td>
